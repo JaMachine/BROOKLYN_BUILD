@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Элитная Недвижимость</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- СТАРТОВАЯ СТРАНИЦА -->
+    <div id="home-page" class="page-container">
+        <header class="header">
+            <div class="logo">
+                <img src="logo.png" alt="Логотип">
+            </div>
+            
+            <nav class="nav-menu">
+                <button class="nav-btn">Про нас</button>
+                <button class="nav-btn">Наші послуги</button>
+                <button class="nav-btn">єВідновлення</button>
+                <button class="nav-btn">Об'єкти</button>
+                <button class="nav-btn">Документи</button>
+                <button class="nav-btn">Статті</button>
+                <button class="nav-btn">Контакти</button>
+            </nav>
+        </header>
+
+        <main class="main-content">
+            <div class="estate-image">
+                <picture>
+                    <source media="(max-width: 768px)" srcset="estateMobile.png">
+                    <img src="estate.png" alt="BROOKLYN BUILD">
+                </picture>
+            </div>
+        </main>
+    </div>
+
+    <!-- ЭКРАН-ЗАГЛУШКА (скрыт по умолчанию) -->
+    <div id="stub-page" class="page-container hidden">
+        <header class="header">
+            <div class="logo stub-logo">
+                <img src="logo.png" alt="Логотип">
+            </div>
+        </header>
+        <div class="stub-content">
+            <button id="back-btn" class="nav-btn back-btn">Назад</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
