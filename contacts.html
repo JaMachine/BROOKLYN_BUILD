@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контакты — Элитная Недвижимость</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #2c2c2c 100%);
+            color: #ffffff;
+            font-family: sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+        }
+        .logo img { max-width: 150px; height: auto; }
+        .back-home-btn {
+            background: rgba(40, 40, 40, 0.39);
+            color: #e0e0e0;
+            border: 1px solid #D4AF37;
+            padding: 10px 25px;
+            cursor: pointer;
+            font-size: 16px;
+            backdrop-filter: blur(5px);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .back-home-btn:hover { background: rgba(212, 175, 55, 0.15); color: #D4AF37; }
+        
+        .contacts-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            gap: 30px;
+        }
+        .phone-block { text-align: center; margin-bottom: 10px; }
+        .phone-block h2 { font-size: 24px; color: #D4AF37; margin-bottom: 10px; font-weight: normal; }
+        .phone-link {
+            font-size: 36px;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        .phone-link:hover { color: #D4AF37; }
+        
+        .map-wrapper {
+            width: 100%;
+            max-width: 900px;
+            height: 450px;
+            border: 2px solid #D4AF37;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+        iframe { width: 100%; height: 100%; border: none; }
+
+        @media (max-width: 768px) {
+            .header { padding: 20px; }
+            .phone-link { font-size: 26px; }
+            .map-wrapper { height: 300px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">
+            <img src="logo.png" alt="Логотип">
+        </div>
+        <a href="index.html" class="back-home-btn">На головну</a>
+    </header>
+
+    <div class="contacts-container">
+        <div class="phone-block">
+            <h2>Наш телефон</h2>
+            <!-- tel: делает номер полностью интерактивным для вызова со смартфона -->
+            <a href="tel:+380960906699" class="phone-link">+380 (96) 090 66 99</a>
+        </div>
+
+        <!-- Карта Сингапура (Marina Bay Sands) -->
+        <div class="map-wrapper">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m13!1m4!1m3!1m1!1s0x31da1904591e0c87%3A0xb89fae080eb2160d!2m2!1d103.8594944!2d1.2847234!3m6!1m1!1s0x31da1904591e0c87%3A0xb89fae080eb2160d!2sMarina+Bay+Sands+Singapore!8m2!3d1.2847234!4d103.8594944!16s%2Fm%2F04z_vdf?entry=ttu" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </div>
+
+</body>
+</html>

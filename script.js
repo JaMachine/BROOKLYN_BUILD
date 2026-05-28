@@ -1,40 +1,92 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const navButtons = document.querySelectorAll('.nav-menu .nav-btn');
+    // Элементы навигации страниц
+    const navButtons = document.querySelectorAll('.nav-menu .nav-btn[data-target]');
     const homePage = document.getElementById('home-page');
-    const stubPage = document.getElementById('stub-page');
-    const backBtn = document.getElementById('back-btn');
+    const contactsBtn = document.getElementById('to-contacts-btn');
+    
+    // Элементы выпадающего меню услуг
+    const servicesBtn = document.getElementById("services-btn");
+    const servicesDropdown = document.getElementById("services-dropdown");
 
-    if (!homePage || !stubPage || !backBtn) {
-        console.error('Ошибка: Один или несколько элементов (home-page, stub-page, back-btn) не найдены в HTML!');
-        return;
+    // 1. Открытие/закрытие подменю "Наші послуги"
+    if (servicesBtn && servicesDropdown) {
+        servicesBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            servicesDropdown.classList.toggle("hidden");
+        });
     }
 
+    // 2. Закрытие меню при клике в любое другое место экрана
+    document.addEventListener("click", (e) => {
+        if (servicesBtn && servicesDropdown) {
+            if (!servicesBtn.contains(e.target) && !servicesDropdown.contains(e.target)) {
+                if (!servicesDropdown.classList.contains("hidden")) {
+                    servicesDropdown.classList.add("hidden");
+                }
+            }
+        }
+    });
+
+    // 3. Переходы на внутренние экраны
     navButtons.forEach(btn => {
         btn.addEventListener('click', () => {
+            const targetId = btn.getAttribute('data-target');
+            const targetPage = document.getElementById(targetId);
+
+            if (!targetPage) return;
+
             homePage.classList.add('fade-out');
             
             setTimeout(() => {
                 homePage.classList.add('hidden');
-                stubPage.classList.remove('hidden');
-                stubPage.classList.add('fade-out');
+                targetPage.classList.remove('hidden');
                 
-                requestAnimationFrame(() => {
-                    stubPage.classList.remove('fade-out');
-                });
+                // Анимация галереи
+                if (targetId === 'gallery-page') {
+                    requestAnimationFrame(() => {
+                        targetPage.classList.add('slide-up');
+                    });
+                } else {
+                    targetPage.classList.add('fade-out');
+                    requestAnimationFrame(() => {
+                        targetPage.classList.remove('fade-out');
+                    });
+                }
             }, 500); 
         });
     });
 
-    backBtn.addEventListener('click', () => {
-        stubPage.classList.add('fade-out');
-        
-        setTimeout(() => {
-            stubPage.classList.add('hidden');
-            homePage.classList.remove('hidden');
+    // 4. Обработка всех кнопок "Назад"
+    document.querySelectorAll('.back-btn').forEach(backBtn => {
+        backBtn.addEventListener('click', (e) => {
+            const currentPage = e.target.closest('.page-container');
             
-            requestAnimationFrame(() => {
-                homePage.classList.remove('fade-out');
-            });
-        }, 500);
+            if (currentPage.id === 'gallery-page') {
+                currentPage.classList.remove('slide-up');
+                setTimeout(() => {
+                    currentPage.classList.add('hidden');
+                    homePage.classList.remove('hidden');
+                    requestAnimationFrame(() => {
+                        homePage.classList.remove('fade-out');
+                    });
+                }, 600);
+            } else {
+                currentPage.classList.add('fade-out');
+                setTimeout(() => {
+                    currentPage.classList.add('hidden');
+                    homePage.classList.remove('hidden');
+                    requestAnimationFrame(() => {
+                        homePage.classList.remove('fade-out');
+                    });
+                }, 500);
+            }
+        });
     });
+
+    // 5. Кнопка контактов
+    if (contactsBtn) {
+        contactsBtn.addEventListener('click', () => {
+            window.location.href = 'contacts.html'; 
+        });
+    }
 });
