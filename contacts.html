@@ -4,35 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Контакты — Элитная Недвижимость</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
             background: linear-gradient(135deg, #0a0a0a 0%, #2c2c2c 100%);
             color: #ffffff;
-            font-family: sans-serif;
+            font-family: 'Montserrat', sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
+        
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 20px 40px;
         }
+        
         .logo img { max-width: 150px; height: auto; }
+        
         .back-home-btn {
-            background: rgba(40, 40, 40, 0.39);
+            background: rgba(30, 30, 30, 0.6);
             color: #e0e0e0;
-            border: 1px solid #D4AF37;
-            padding: 10px 25px;
+            border: 2px solid #8B6508;
+            padding: 12px 24px;
             cursor: pointer;
-            font-size: 16px;
-            backdrop-filter: blur(5px);
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            backdrop-filter: blur(8px);
             text-decoration: none;
             transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
         }
-        .back-home-btn:hover { background: rgba(212, 175, 55, 0.15); color: #D4AF37; }
+        
+        .back-home-btn:hover { 
+            background: rgba(212, 175, 55, 0.2); 
+            color: #D4AF37; 
+            border-color: #D4AF37;
+            box-shadow: 0 12px 22px rgba(0, 0, 0, 0.6);
+        }
         
         .contacts-container {
             flex-grow: 1;
@@ -42,30 +61,158 @@
             padding: 40px 20px;
             gap: 30px;
         }
-        .phone-block { text-align: center; margin-bottom: 10px; }
-        .phone-block h2 { font-size: 24px; color: #D4AF37; margin-bottom: 10px; font-weight: normal; }
+        
+        .phone-block { 
+            text-align: center; 
+            margin-bottom: 110px; /* Отступ держим как просил */
+        }
+        
+        .phone-block h2 { 
+            font-size: 14px; 
+            color: #D4AF37; 
+            margin-bottom: 15px; 
+            font-weight: 600; 
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
         .phone-link {
             font-size: 36px;
             color: #ffffff;
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 600;
             transition: color 0.3s;
+            letter-spacing: 1px;
         }
+        
         .phone-link:hover { color: #D4AF37; }
+        
+        .map-link {
+            display: block;
+            width: 100%;
+            max-width: 900px;
+            text-decoration: none;
+        }
         
         .map-wrapper {
             width: 100%;
-            max-width: 900px;
-            height: 450px;
-            border: 2px solid #D4AF37;
+            height: 350px;
+            border: 2px solid #8B6508;
             box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            position: relative;
+            overflow: hidden;
+            background-color: #121212;
         }
-        iframe { width: 100%; height: 100%; border: none; }
+
+        /* Наша фоновая картинка теперь идет через HTML, растягиваем её */
+        .map-bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            transition: transform 0.4s ease;
+        }
+
+        /* Затемняющий слой поверх картинки для читаемости текста */
+        .map-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(10, 10, 10, 0.75) 0%, rgba(5, 5, 5, 0.85) 100%);
+            z-index: 2;
+            transition: background 0.3s ease;
+        }
+
+        /* Контент центрируем поверх всех слоев */
+        .map-content {
+            position: relative;
+            z-index: 3;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .map-icon {
+            font-size: 48px;
+            color: #D4AF37;
+            margin-bottom: 15px;
+            transition: transform 0.4s ease;
+        }
+
+        .map-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .map-address {
+            font-size: 14px;
+            color: #d0d0d0;
+            max-width: 500px;
+            line-height: 1.6;
+            letter-spacing: 1px;
+        }
+        
+        .map-hint {
+            margin-top: 30px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #D4AF37;
+            border: 1px solid #8B6508;
+            padding: 8px 20px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            background: rgba(10, 10, 10, 0.6);
+            backdrop-filter: blur(4px);
+            transition: all 0.3s ease;
+        }
+        
+        /* Эффекты наведения мыши */
+        .map-link:hover .map-wrapper {
+            border-color: #D4AF37;
+            box-shadow: 0 25px 50px rgba(212, 175, 55, 0.15);
+        }
+
+        .map-link:hover .map-bg-image {
+            transform: scale(1.04);
+        }
+
+        .map-link:hover .map-overlay {
+            background: linear-gradient(180deg, rgba(10, 10, 10, 0.55) 0%, rgba(5, 5, 5, 0.65) 100%);
+        }
+        
+        .map-link:hover .map-icon {
+            transform: translateY(-5px);
+        }
+
+        .map-link:hover .map-hint {
+            background: #D4AF37;
+            color: #0a0a0a;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+        }
 
         @media (max-width: 768px) {
             .header { padding: 20px; }
-            .phone-link { font-size: 26px; }
+            .phone-link { font-size: 24px; }
+            .phone-block { margin-bottom: 50px; } 
             .map-wrapper { height: 300px; }
+            .map-title { font-size: 16px; }
+            .map-address { font-size: 12px; }
+            .back-home-btn { font-size: 11px; padding: 10px 18px; }
         }
     </style>
 </head>
@@ -81,14 +228,22 @@
     <div class="contacts-container">
         <div class="phone-block">
             <h2>Наш телефон</h2>
-            <!-- tel: делает номер полностью интерактивным для вызова со смартфона -->
             <a href="tel:+380960906699" class="phone-link">+380 (96) 090 66 99</a>
         </div>
 
-        <!-- Карта Сингапура (Marina Bay Sands) -->
-        <div class="map-wrapper">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m13!1m4!1m3!1m1!1s0x31da1904591e0c87%3A0xb89fae080eb2160d!2m2!1d103.8594944!2d1.2847234!3m6!1m1!1s0x31da1904591e0c87%3A0xb89fae080eb2160d!2sMarina+Bay+Sands+Singapore!8m2!3d1.2847234!4d103.8594944!16s%2Fm%2F04z_vdf?entry=ttu" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
+        <a href="https://maps.app.goo.gl/w6f9vA6g9ZAn9Kqg8" target="_blank" class="map-link">
+            <div class="map-wrapper">
+                <img src="map-bg.png" alt="Карта" class="map-bg-image">
+                <div class="map-overlay"></div>
+                
+                <div class="map-content">
+                    <div class="map-icon">📍</div>
+                    <div class="map-title">Головний офіс</div>
+                    <div class="map-address">10 Bayfront Ave, Singapore 018956</div>
+                    <div class="map-hint">Відкрити карту Google</div>
+                </div>
+            </div>
+        </a>
     </div>
 
 </body>
