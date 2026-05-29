@@ -36,24 +36,62 @@
             z-index: 0;
         }
 
-        /* HEADER */
+        /* ---- HEADER ---- */
         .header {
             position: fixed;
             top: 0; left: 0;
             width: 100%;
-            padding: 20px 40px;
+            padding: 18px 40px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             z-index: 100;
-            background: linear-gradient(to bottom, rgba(10,10,10,0.95) 0%, transparent 100%);
-            backdrop-filter: blur(4px);
+            background: linear-gradient(to bottom, rgba(10,10,10,0.96) 0%, transparent 100%);
+            backdrop-filter: blur(6px);
         }
 
         .logo img {
-            max-width: 90px;
+            max-width: 80px;
             height: auto;
             filter: drop-shadow(0px 4px 12px rgba(0,0,0,0.8));
+        }
+
+        /* Centre badge */
+        .header-badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            pointer-events: none;
+        }
+
+        .header-badge .badge-label {
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+        }
+
+        .header-badge .badge-title {
+            font-size: 15px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #fff;
+        }
+
+        .header-badge .badge-title span {
+            color: var(--gold);
+        }
+
+        .header-badge .badge-line {
+            width: 40px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--gold), transparent);
         }
 
         .back-btn {
@@ -71,6 +109,7 @@
             transition: all 0.3s ease;
             text-decoration: none;
             display: inline-block;
+            white-space: nowrap;
         }
 
         .back-btn:hover {
@@ -80,73 +119,49 @@
             box-shadow: 0 0 20px rgba(212,175,55,0.3);
         }
 
-        /* PAGE */
+        /* ---- PAGE ---- */
         .page-wrapper {
             position: relative;
             z-index: 1;
-            padding-top: 110px;
+            padding-top: 120px;
             padding-bottom: 60px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        /* INFO BLOCK — centered */
+        /* INFO */
         .info-block {
             width: 100%;
-            max-width: 560px;
+            max-width: 520px;
             text-align: center;
             padding: 0 24px;
         }
 
-        .section-label {
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-        }
-
-        .section-label::before,
-        .section-label::after {
-            content: '';
-            display: block;
-            width: 30px;
-            height: 1px;
-            background: var(--gold);
-        }
-
         .contacts-title {
-            font-size: clamp(26px, 4vw, 40px);
+            font-size: clamp(24px, 3.5vw, 36px);
             font-weight: 900;
             text-transform: uppercase;
             line-height: 1.1;
-            margin-bottom: 40px;
+            margin-bottom: 36px;
             letter-spacing: 1px;
             color: #fff;
         }
 
-        .contacts-title span {
-            color: var(--gold);
-        }
+        .contacts-title span { color: var(--gold); }
 
         .contact-block {
-            margin-bottom: 28px;
+            margin-bottom: 26px;
             animation: fadeUp 0.8s ease forwards;
             opacity: 0;
         }
 
-        .contact-block:nth-child(3) { animation-delay: 0.1s; }
-        .contact-block:nth-child(4) { animation-delay: 0.2s; }
-        .contact-block:nth-child(5) { animation-delay: 0.3s; }
+        .contact-block:nth-child(2) { animation-delay: 0.05s; }
+        .contact-block:nth-child(3) { animation-delay: 0.15s; }
+        .contact-block:nth-child(4) { animation-delay: 0.25s; }
 
         @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(18px); }
             to   { opacity: 1; transform: translateY(0); }
         }
 
@@ -166,7 +181,7 @@
             gap: 12px;
             text-decoration: none;
             color: #ffffff;
-            font-size: clamp(20px, 3vw, 28px);
+            font-size: clamp(20px, 2.8vw, 28px);
             font-weight: 700;
             letter-spacing: 1px;
             transition: color 0.3s ease;
@@ -179,8 +194,7 @@
             position: absolute;
             bottom: 0; left: 50%;
             transform: translateX(-50%);
-            width: 0;
-            height: 2px;
+            width: 0; height: 2px;
             background: var(--gold);
             transition: width 0.4s ease;
         }
@@ -189,7 +203,7 @@
         .phone-link:hover::after { width: 100%; }
 
         .phone-icon {
-            width: 38px; height: 38px;
+            width: 36px; height: 36px;
             border: 1px solid var(--gold-dark);
             display: flex;
             align-items: center;
@@ -205,7 +219,7 @@
             box-shadow: 0 0 15px rgba(212,175,55,0.2);
         }
 
-        .phone-icon svg { width: 16px; height: 16px; fill: var(--gold); }
+        .phone-icon svg { width: 15px; height: 15px; fill: var(--gold); }
 
         .address-text {
             font-size: 15px;
@@ -222,17 +236,16 @@
         }
 
         .gold-divider {
-            width: 60px;
-            height: 2px;
+            width: 60px; height: 2px;
             background: linear-gradient(to right, transparent, var(--gold), transparent);
-            margin: 28px auto;
+            margin: 24px auto;
         }
 
-        /* MAP */
+        /* ---- MAP ---- */
         .map-wrapper {
             width: 100%;
-            max-width: 700px;
-            margin: 44px 24px 0;
+            max-width: 680px;
+            margin: 40px 0 0;
             padding: 0 24px;
         }
 
@@ -240,9 +253,9 @@
             position: relative;
             border: 2px solid var(--gold-dark);
             box-shadow:
-                0 0 0 1px rgba(212,175,55,0.15),
-                0 20px 60px rgba(0,0,0,0.7),
-                0 0 40px rgba(139,101,8,0.25);
+                0 0 0 1px rgba(212,175,55,0.12),
+                0 20px 60px rgba(0,0,0,0.75),
+                0 0 40px rgba(139,101,8,0.2);
             overflow: hidden;
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
@@ -251,49 +264,47 @@
             border-color: var(--gold);
             box-shadow:
                 0 0 0 1px rgba(212,175,55,0.3),
-                0 24px 70px rgba(0,0,0,0.8),
-                0 0 50px rgba(212,175,55,0.2);
+                0 24px 70px rgba(0,0,0,0.85),
+                0 0 50px rgba(212,175,55,0.18);
         }
 
-        /* gold corner accents */
         .map-frame::before,
         .map-frame::after {
             content: '';
             position: absolute;
-            width: 16px; height: 16px;
+            width: 14px; height: 14px;
             border-color: var(--gold);
             border-style: solid;
             z-index: 3;
             pointer-events: none;
         }
+
         .map-frame::before { top: 8px; left: 8px; border-width: 2px 0 0 2px; }
         .map-frame::after  { bottom: 8px; right: 8px; border-width: 0 2px 2px 0; }
 
         .map-frame iframe {
             width: 100%;
-            height: 350px;
+            height: 320px;
             border: none;
             display: block;
-            filter: grayscale(30%) contrast(1.05) brightness(0.88);
+            filter: grayscale(25%) contrast(1.05) brightness(0.9);
             transition: filter 0.4s ease;
         }
 
         .map-frame:hover iframe {
-            filter: grayscale(0%) contrast(1.02) brightness(0.96);
+            filter: grayscale(0%) brightness(1);
         }
 
-        /* inset shadow overlay */
         .map-inset {
             position: absolute;
             inset: 0;
             pointer-events: none;
-            box-shadow: inset 0 0 40px rgba(0,0,0,0.35);
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.3);
             z-index: 2;
         }
 
-        /* MAP CAPTION */
         .map-caption {
-            margin-top: 12px;
+            margin-top: 10px;
             text-align: center;
             font-size: 10px;
             letter-spacing: 3px;
@@ -301,9 +312,17 @@
             color: var(--gold-dark);
         }
 
-        @media (max-width: 600px) {
-            .header { padding: 16px 20px; }
-            .map-frame iframe { height: 260px; }
+        /* ---- MOBILE ---- */
+        @media (max-width: 640px) {
+            .header { padding: 14px 20px; }
+            .header-badge .badge-title { font-size: 12px; letter-spacing: 2px; }
+            .back-btn { padding: 8px 16px; font-size: 11px; }
+            .map-frame iframe { height: 240px; }
+        }
+
+        @media (max-width: 420px) {
+            .header-badge .badge-label { display: none; }
+            .header-badge .badge-line  { display: none; }
         }
     </style>
 </head>
@@ -313,20 +332,22 @@
         <div class="logo">
             <img src="logo2.png" alt="Brooklyn Build">
         </div>
+
+        <!-- Badge in the centre of header -->
+        <div class="header-badge">
+            <span class="badge-label">Контакти</span>
+            <div class="badge-line"></div>
+            <span class="badge-title">Brooklyn <span>Build</span></span>
+        </div>
+
         <a href="index.html" class="back-btn">← Назад</a>
     </header>
 
     <div class="page-wrapper">
 
-        <!-- Centered text info -->
         <div class="info-block">
-            <div class="section-label">Brooklyn Build</div>
+            <h1 class="contacts-title">Наші <span>контакти</span></h1>
 
-            <h1 class="contacts-title">
-                Наші <span>контакти</span>
-            </h1>
-
-            <!-- Phone -->
             <div class="contact-block">
                 <div class="contact-label">Телефон</div>
                 <a href="tel:+380960906699" class="phone-link">
@@ -341,7 +362,6 @@
 
             <div class="gold-divider"></div>
 
-            <!-- Address -->
             <div class="contact-block">
                 <div class="contact-label">Адреса офісу</div>
                 <div class="address-text">
@@ -351,7 +371,6 @@
                 </div>
             </div>
 
-            <!-- Hours -->
             <div class="contact-block">
                 <div class="contact-label">Графік роботи</div>
                 <div class="address-text">
@@ -361,17 +380,16 @@
             </div>
         </div>
 
-        <!-- Map below, smaller, with gold frame + shadow -->
+        <!-- Map — plain embed, no API key needed, pin works -->
         <div class="map-wrapper">
             <div class="map-frame">
                 <div class="map-inset"></div>
-                <!-- q= param places a visible pin on the map -->
                 <iframe
-                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY&q=Marina+Bay+Sands,Singapore&zoom=15"
+                    src="https://maps.google.com/maps?q=Marina+Bay+Sands,+10+Bayfront+Avenue,+Singapore+018956&t=m&z=16&output=embed&iwloc=near"
                     allowfullscreen=""
                     loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade"
-                    title="Marina Bay Sands">
+                    title="Marina Bay Sands, Singapore">
                 </iframe>
             </div>
             <p class="map-caption">Marina Bay Sands, Singapore</p>
