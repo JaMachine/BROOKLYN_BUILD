@@ -92,7 +92,7 @@ body {
 .header {
     position: absolute;
     top: 6vh; 
-    left: 22%; 
+    left: 20%; 
     display: flex;
     flex-direction: column; 
     gap: 30px; 
@@ -168,7 +168,7 @@ body {
 }
 
 .sub-nav-btn {
-    background: rgba(15, 15, 15, 0.8);
+    background: rgba(15, 15, 15, 0.933);
     color: #cccccc;
     border: 1px solid #8B6508;
     border-left: 4px solid #8B6508; 
@@ -189,10 +189,10 @@ body {
 }
 
 .sub-nav-btn:hover {
-    background: rgba(212, 175, 55, 0.15);
-    color: #D4AF37;
-    border-left-color: #D4AF37;
-    transform: translateX(5px); 
+    background: #4b3900c8; /* Плотный золотой цвет без прозрачности */
+    color: #ffffff;      /* Текст становится черным для максимального контраста */
+    border-left-color: #ffffff; /* По желанию: левая полоска подсветится белым */
+    transform: translateX(8px); /* Легкий аккуратный сдвиг вправо при наведении */
 }
 
 /* Анимации */
