@@ -23,34 +23,127 @@
             align-items: center;
         }
 
-        .top-bar { width: 100%; max-width: 400px; display: flex; justify-content: flex-end; align-items: center; padding: 10px; height: 50px; flex-shrink: 0; }
-        .close-btn { width: 40px; height: 40px; background: #8B6508; border: 2px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        /* ── TOP BAR: лого слева, счёт по центру, крестик справа ── */
+        .top-bar {
+            width: 100%;
+            max-width: 420px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            padding: 10px 12px;
+            height: 60px;
+            flex-shrink: 0;
+        }
+
+        .logo-wrap {
+            display: flex;
+            align-items: center;
+        }
+        .logo-wrap img {
+            height: 32px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .score-center {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+        }
+        .score-label {
+            font-size: 10px;
+            font-weight: 600;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+        .score-value {
+            font-size: 22px;
+            font-weight: 900;
+            color: var(--gold);
+            min-width: 32px;
+        }
+
+        .close-wrap {
+            display: flex;
+            justify-content: flex-end;
+        }
+        .close-btn {
+            width: 40px; height: 40px;
+            background: #8B6508;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            text-decoration: none;
+        }
         .close-btn svg { width: 14px; fill: #fff; }
 
-        .score-container { text-align: center; flex-shrink: 0; margin-bottom: 5px; }
-        .score-label { font-size: 9px; color: #888; text-transform: uppercase; }
-        .score-value { font-size: 24px; font-weight: 700; color: var(--gold); }
+        /* ── CANVAS ── */
+        .game-wrapper {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            overflow: hidden;
+            padding: 0 5px;
+            min-height: 0;
+        }
+        canvas {
+            background: #111;
+            border: 2px solid var(--gold);
+            max-height: 100%;
+            aspect-ratio: 1 / 2;
+        }
 
-        /* Игровое поле теперь чуть меньше, чтобы освободить место для очков и кнопок */
-        .game-wrapper { flex-grow: 1; display: flex; justify-content: center; align-items: center; width: 100%; overflow: hidden; padding: 5px; min-height: 0; }
-        canvas { background: #111; border: 2px solid var(--gold); max-height: 90%; aspect-ratio: 1 / 2; }
-
-        .controls-layer { width: 100%; max-width: 400px; height: 80px; display: flex; justify-content: space-between; align-items: center; padding: 0 10px 10px 10px; flex-shrink: 0; }
+        /* ── CONTROLS ── */
+        .controls-layer {
+            width: 100%;
+            max-width: 420px;
+            height: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 14px 12px;
+            flex-shrink: 0;
+        }
         .arrows-group { display: flex; gap: 8px; }
-        .touch-btn { background: rgba(30,30,30,0.9); border: 2px solid var(--gold-dark); color: var(--gold); width: 55px; height: 55px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; border-radius: 12px; }
+        .touch-btn {
+            background: rgba(30,30,30,0.9);
+            border: 2px solid var(--gold-dark);
+            color: var(--gold);
+            width: 55px; height: 55px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px; font-weight: 700;
+            border-radius: 12px;
+        }
         .rotate-btn { width: 65px; height: 65px; border-radius: 50%; border: 2px solid var(--gold); }
         .touch-btn:active { background: var(--gold); color: #000; }
     </style>
 </head>
 <body>
+
     <div class="top-bar">
-        <a href="index.html" class="close-btn"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></a>
+        <div class="logo-wrap">
+            <img src="logo.png" alt="Brooklyn Build">
+        </div>
+        <div class="score-center">
+            <div class="score-label">РАХУНОК</div>
+            <div id="score" class="score-value">0</div>
+        </div>
+        <div class="close-wrap">
+            <a href="index.html" class="close-btn">
+                <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+            </a>
+        </div>
     </div>
-    <div class="score-container">
-        <div class="score-label">РАХУНОК</div>
-        <div id="score" class="score-value">0</div>
+
+    <div class="game-wrapper">
+        <canvas id="tetris" width="240" height="480"></canvas>
     </div>
-    <div class="game-wrapper"><canvas id="tetris" width="240" height="480"></canvas></div>
+
     <div class="controls-layer">
         <div class="arrows-group">
             <div class="touch-btn" id="touch-left">←</div>
@@ -66,10 +159,10 @@
 
         const canvas = document.getElementById('tetris');
         const context = canvas.getContext('2d');
-        context.scale(20, 20);
 
+        const COLS = 12, ROWS = 24, CELL = 20;
         const colors = [null, '#D4AF37', '#F3E5AB', '#AA7C11', '#B5A642', '#E6CA65', '#996515', '#C5A059'];
-        const arena = createMatrix(12, 24);
+        const arena = createMatrix(COLS, ROWS);
         const player = { pos: {x: 0, y: 0}, matrix: null, score: 0 };
 
         function createMatrix(w, h) { const m = []; while(h--) m.push(new Array(w).fill(0)); return m; }
@@ -83,16 +176,20 @@
             return [[7,7,0],[0,7,7],[0,0,0]];
         }
 
-        function draw() {
-            context.fillStyle = '#111'; context.fillRect(0, 0, canvas.width, canvas.height);
-            drawMatrix(arena, {x:0, y:0});
-            drawMatrix(player.matrix, player.pos);
+        function drawMatrix(m, offsetX, offsetY) {
+            m.forEach((row, y) => row.forEach((v, x) => {
+                if (v) {
+                    context.fillStyle = colors[v];
+                    context.fillRect((x + offsetX) * CELL, (y + offsetY) * CELL, CELL - 1, CELL - 1);
+                }
+            }));
         }
 
-        function drawMatrix(m, o) {
-            m.forEach((row, y) => row.forEach((v, x) => {
-                if(v) { context.fillStyle = colors[v]; context.fillRect(x + o.x, y + o.y, 1, 1); }
-            }));
+        function draw() {
+            context.fillStyle = '#111';
+            context.fillRect(0, 0, canvas.width, canvas.height);
+            drawMatrix(arena, 0, 0);
+            drawMatrix(player.matrix, player.pos.x, player.pos.y);
         }
 
         function playerDrop() {
@@ -107,17 +204,18 @@
         }
 
         function collide(a, p) {
-            for(let y=0; y<p.matrix.length; ++y)
-                for(let x=0; x<p.matrix[y].length; ++x)
-                    if(p.matrix[y][x] && (a[y+p.pos.y] && a[y+p.pos.y][x+p.pos.x]) !== 0) return true;
+            for (let y = 0; y < p.matrix.length; ++y)
+                for (let x = 0; x < p.matrix[y].length; ++x)
+                    if (p.matrix[y][x] && (a[y + p.pos.y] && a[y + p.pos.y][x + p.pos.x]) !== 0) return true;
             return false;
         }
 
-        function merge(a, p) { p.matrix.forEach((r, y) => r.forEach((v, x) => { if(v) a[y+p.pos.y][x+p.pos.x] = v; })); }
+        function merge(a, p) { p.matrix.forEach((r, y) => r.forEach((v, x) => { if (v) a[y + p.pos.y][x + p.pos.x] = v; })); }
+
         function arenaSweep() {
-            outer: for(let y = arena.length-1; y > 0; --y) {
-                for(let x=0; x<arena[y].length; ++x) if(arena[y][x] === 0) continue outer;
-                arena.splice(y, 1); arena.unshift(new Array(12).fill(0)); y++;
+            outer: for (let y = arena.length - 1; y > 0; --y) {
+                for (let x = 0; x < arena[y].length; ++x) if (arena[y][x] === 0) continue outer;
+                arena.splice(y, 1); arena.unshift(new Array(COLS).fill(0)); y++;
                 player.score += 10;
             }
             document.getElementById('score').innerText = player.score;
@@ -126,29 +224,54 @@
         function playerReset() {
             const pieces = 'ILJOTSZ';
             player.matrix = createPiece(pieces[pieces.length * Math.random() | 0]);
-            player.pos.y = 0; player.pos.x = 4;
-            if (collide(arena, player)) { arena.forEach(r => r.fill(0)); player.score = 0; }
+            player.pos.y = 0;
+            player.pos.x = Math.floor(COLS / 2) - Math.floor(player.matrix[0].length / 2);
+            if (collide(arena, player)) {
+                arena.forEach(r => r.fill(0));
+                player.score = 0;
+                document.getElementById('score').innerText = 0;
+            }
         }
 
         function playerMove(dir) { player.pos.x += dir; if (collide(arena, player)) player.pos.x -= dir; }
-        function playerRotate() { const p = player.matrix; player.matrix = player.matrix[0].map((_, i) => player.matrix.map(r => r[i]).reverse()); if(collide(arena, player)) player.matrix = p; }
+        function playerRotate() {
+            const orig = player.matrix;
+            player.matrix = player.matrix[0].map((_, i) => player.matrix.map(r => r[i]).reverse());
+            if (collide(arena, player)) player.matrix = orig;
+        }
 
         let dropCounter = 0, lastTime = 0, dropIntervalId = null;
         function update(time = 0) {
             dropCounter += time - lastTime; lastTime = time;
             if (dropCounter > 1000) playerDrop();
-            draw(); requestAnimationFrame(update);
+            draw();
+            requestAnimationFrame(update);
         }
 
         document.getElementById('touch-left').onclick = () => playerMove(-1);
         document.getElementById('touch-right').onclick = () => playerMove(1);
         document.getElementById('touch-rotate').onclick = playerRotate;
-        
+
         const downBtn = document.getElementById('touch-down');
         downBtn.onpointerdown = () => { playerDrop(); dropIntervalId = setInterval(playerDrop, 70); };
         downBtn.onpointerup = downBtn.onpointerleave = () => clearInterval(dropIntervalId);
 
         playerReset(); update();
+
+        // Фонова музика — запускається при першому торканні (обхід autoplay-блокування браузера)
+        const bgAudio = new Audio('bgsound.mp3');
+        bgAudio.loop = true;
+        bgAudio.volume = 0.4;
+
+        let audioStarted = false;
+        function startAudio() {
+            if (audioStarted) return;
+            audioStarted = true;
+            bgAudio.play().catch(() => {}); // тихо ігноруємо якщо все ж заблоковано
+        }
+
+        document.addEventListener('pointerdown', startAudio, { once: true });
+        document.addEventListener('keydown', startAudio, { once: true });
     </script>
 </body>
 </html>
