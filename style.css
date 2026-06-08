@@ -1,4 +1,4 @@
-/* Полный сброс отступов */
+/* Повний сброс отступів */
 * {
     margin: 0;
     padding: 0;
@@ -8,7 +8,7 @@
 body {
     background: linear-gradient(135deg, #0a0a0a 0%, #2c2c2c 100%);
     color: #ffffff;
-    font-family: 'Montserrat', sans-serif; /* Изменили шрифт для всего сайта */
+    font-family: 'Montserrat', sans-serif;
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
@@ -115,6 +115,17 @@ body {
     width: 250px; 
 }
 
+.menu-mobile-logo {
+    display: none;
+}
+
+.nav-buttons-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
 .nav-btn {
     width: 100%;
     text-align: left; 
@@ -123,14 +134,11 @@ body {
     border: 2px solid #8B6508; 
     padding: 14px 22px; 
     cursor: pointer;
-    
-    /* СТИЛИЗАЦИЯ ТЕКСТА КНОПОК */
     font-family: 'Montserrat', sans-serif;
-    font-size: 14px;                 /* Чуть уменьшили размер, так как шрифт сам по себе шире */
-    font-weight: 600;                /* Сделали буквы более выразительными */
-    text-transform: uppercase;       /* Все буквы заглавные (добавляет строгости) */
-    letter-spacing: 1.5px;           /* Стильный разряд между буквами */
-    
+    font-size: 14px; 
+    font-weight: 600; 
+    text-transform: uppercase; 
+    letter-spacing: 1.5px; 
     backdrop-filter: blur(8px);
     transition: all 0.3s ease;
     outline: none;
@@ -174,14 +182,11 @@ body {
     border-left: 4px solid #8B6508; 
     padding: 12px 20px;
     cursor: pointer;
-    
-    /* СТИЛИЗАЦИЯ ПОДМЕНЮ */
     font-family: 'Montserrat', sans-serif;
     font-size: 12px;
     font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 1px;
-    
     text-align: left;
     transition: all 0.3s ease;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
@@ -189,10 +194,10 @@ body {
 }
 
 .sub-nav-btn:hover {
-    background: #4b3900c8; /* Плотный золотой цвет без прозрачности */
-    color: #ffffff;      /* Текст становится черным для максимального контраста */
-    border-left-color: #ffffff; /* По желанию: левая полоска подсветится белым */
-    transform: translateX(8px); /* Легкий аккуратный сдвиг вправо при наведении */
+    background: #4b3900c8; 
+    color: #ffffff;      
+    border-left-color: #ffffff; 
+    transform: translateX(8px); 
 }
 
 /* Анимации */
@@ -260,13 +265,68 @@ body {
     border: 1px solid rgba(212, 175, 55, 0.2);
 }
 
+/* --- СКРЫТИЕ МОБИЛЬНЫХ ЭЛЕМЕНТОВ НА ДЕСТКОПЕ --- */
+.menu-toggle, .phone-widget {
+    display: none;
+}
+
 /* --- МОБИЛЬНАЯ ВЕРСИЯ (ДО 768px) --- */
 @media (max-width: 768px) {
+    
+    /* КРУГЛАЯ КНОПКА МЕНЮ ВНИЗУ СЛЕВА */
+    .menu-toggle {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        bottom: 30px; 
+        left: 25px;
+        width: 50px;
+        height: 50px;
+        background: #8B6508;
+        border: 2px solid #D4AF37;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        z-index: 100;
+        transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .burger-icon {
+        width: 22px;
+        height: 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .burger-icon span {
+        display: block;
+        width: 100%;
+        height: 2.5px;
+        background-color: #ffffff;
+        border-radius: 2px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .menu-toggle.active {
+        background: #D4AF37;
+        transform: rotate(90deg);
+    }
+
+    .menu-toggle.active .burger-icon span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+    }
+    .menu-toggle.active .burger-icon span:nth-child(2) {
+        opacity: 0;
+    }
+    .menu-toggle.active .burger-icon span:nth-child(3) {
+        transform: translateY(-6.5px) rotate(-45deg);
+    }
+
     .header {
-        position: relative; 
-        top: 0;
-        left: 0; 
-        padding: 20px;
+        position: static; 
+        padding: 40px 20px;
         gap: 30px;
         align-items: center; 
     }
@@ -275,9 +335,57 @@ body {
         max-width: 200px;
     }
 
+    /* ШТОРКА МЕНЮ НА МОБИЛЬНОМ */
     .nav-menu {
+        position: fixed;
+        bottom: 0; 
+        left: -100%; 
+        width: 80%;
+        max-width: 320px;
+        height: 100vh;
+        background: rgba(10, 10, 10, 0.96);
+        backdrop-filter: blur(15px);
+        border-right: 2px solid #8B6508;
+        padding: 0 20px; /* Убираем лишние паддинги, распределяем внутренними блоками */
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Центрирует всё содержимое шторки */
+        align-items: center;
+        transition: left 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        z-index: 90;
+        pointer-events: auto;
+    }
+
+    .nav-menu.open {
+        left: 0;
+    }
+
+    /* МОБИЛЬНЫЙ ЛОГОТИП СВЕРХУ ШТОРКИ */
+    .menu-mobile-logo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         width: 100%;
-        max-width: 320px; 
+        position: absolute;
+        top: 40px; /* Фиксированный отступ от верхнего края */
+        left: 0;
+    }
+
+    .menu-mobile-logo img {
+        max-width: 150px; /* Оптимальный аккуратный размер */
+        height: auto;
+        filter: drop-shadow(0px 10px 15px rgba(0, 0, 0, 0.6));
+    }
+
+    /* ОБЕРТКА КНОПОК: ЖЕСТКАЯ ВЕРТИКАЛЬНАЯ ЦЕНТРОВКА */
+    .nav-buttons-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        width: 100%;
+        height: auto;
+        justify-content: center; /* Строго вертикально по центру */
+        margin-top: 60px; /* Балансирует визуальный вес из-за логотипа сверху */
     }
 
     .nav-btn {
@@ -289,12 +397,72 @@ body {
         position: relative;
         left: 0;
         bottom: auto; 
-        margin-left: 20px;
+        margin-left: 10px;
         margin-top: 10px;
-        width: auto;
+        width: 100%;
         animation: slideDown 0.3s ease forwards;
     }
 
+    /* --- КНОПКА СВЯЗИ ВНИЗУ СПРАВА --- */
+    .phone-widget {
+        display: flex;
+        align-items: center;
+        position: fixed;
+        bottom: 30px;
+        right: 25px;
+        z-index: 100;
+    }
+
+    .phone-number {
+        background: rgba(30, 30, 30, 0.9);
+        border: 2px solid #8B6508;
+        border-right: none;
+        color: #ffffff;
+        text-decoration: none;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 12px 20px;
+        border-radius: 25px 0 0 25px;
+        backdrop-filter: blur(8px);
+        box-shadow: -5px 5px 15px rgba(0,0,0,0.4);
+        max-width: 0;
+        opacity: 0;
+        padding-left: 0;
+        padding-right: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .phone-widget.active .phone-number {
+        max-width: 220px;
+        opacity: 1;
+        padding-left: 20px;
+        padding-right: 15px;
+    }
+
+    .phone-btn {
+        width: 50px;
+        height: 50px;
+        background: #8B6508;
+        border: 2px solid #D4AF37;
+        border-radius: 50%;
+        color: #ffffff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .phone-widget.active .phone-btn {
+        background: #D4AF37;
+        transform: rotate(135deg);
+    }
+
+    /* Стили заглушек */
     .header-stub {
         padding: 20px;
     }

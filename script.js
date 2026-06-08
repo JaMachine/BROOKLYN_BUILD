@@ -1,4 +1,51 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // === ЛОГИКА ДЛЯ МОБИЛЬНОЙ ВЕРСИИ (ГАМБУРГЕР И ЗВОНОК) ===
+    const menuToggleBtn = document.getElementById('menu-toggle-btn');
+    const mobileNavMenu = document.getElementById('mobile-nav-menu');
+    const phoneWidget = document.getElementById('phone-widget');
+    const phoneBtn = document.getElementById('phone-btn');
+
+    // Открытие/закрытие мобильного меню
+    if (menuToggleBtn && mobileNavMenu) {
+        menuToggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            menuToggleBtn.classList.toggle('active');
+            mobileNavMenu.classList.toggle('open');
+        });
+    }
+
+    // Анимация выезда номера телефона
+    if (phoneBtn && phoneWidget) {
+        phoneBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            phoneWidget.classList.toggle('active');
+        });
+    }
+
+    // Закрытие меню и виджета телефона при клике на пустую область экрана
+    document.addEventListener('click', (e) => {
+        if (mobileNavMenu && !mobileNavMenu.contains(e.target) && !menuToggleBtn.contains(e.target)) {
+            mobileNavMenu.classList.remove('open');
+            menuToggleBtn.classList.remove('active');
+        }
+        if (phoneWidget && !phoneWidget.contains(e.target)) {
+            phoneWidget.classList.remove('active');
+        }
+    });
+
+    // Автоматическое закрытие меню при клике на любую кнопку навигации внутри него
+    if (mobileNavMenu) {
+        const mobileMenuLinks = mobileNavMenu.querySelectorAll('.nav-btn:not(#services-btn), .sub-nav-btn');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileNavMenu.classList.remove('open');
+                menuToggleBtn.classList.remove('active');
+            });
+        });
+    }
+    // =======================================================
+
+
     // Элементы навигации страниц
     const navButtons = document.querySelectorAll('.nav-menu .nav-btn[data-target]');
     const homePage = document.getElementById('home-page');
