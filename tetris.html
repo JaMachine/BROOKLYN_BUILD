@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Brooklyn Build — Tetris Estate</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --gold: #D4AF37;
+            --gold-dark: #8B6508;
+            --bg-black: #0a0a0a;
+            --panel-bg: rgba(30, 30, 30, 0.6);
+        }
+
+        body {
+            background: var(--bg-black);
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            overflow: hidden;
+            padding: 10px 10px 20px 10px;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, #111111 0%, #050505 100%);
+            z-index: -1;
+        }
+
+        .top-bar {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 10px 0 10px;
+            z-index: 100;
+            height: 60px;
+        }
+
+        .game-logo {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100%;
+        }
+
+        .game-logo img {
+            max-height: 50px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .close-btn {
+            width: 45px;
+            height: 45px;
+            background: #8B6508;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            text-decoration: none;
+            transition: transform 0.2s ease;
+        }
+
+        .close-btn:active {
+            transform: scale(0.9);
+        }
+
+        .close-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: #ffffff;
+        }
+
+        .score-container {
+            text-align: center;
+            z-index: 10;
+            margin-top: -5px;
+        }
+
+        .score-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #888;
+            margin-bottom: 2px;
+        }
+
+        .score-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--gold);
+            line-height: 1;
+        }
+
+        .game-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            width: 100%;
+            padding: 5px 0;
+        }
+
+        canvas {
+            background: #111;
+            border: 2px solid var(--gold);
+            display: block;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9);
+            height: 68vh !important;
+            width: auto !important;
+            aspect-ratio: 1 / 2;
+        }
+
+        .controls-layer {
+            width: 100%;
+            max-width: 380px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 10px;
+            gap: 20px;
+            z-index: 10;
+        }
+
+        .arrows-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .touch-btn {
+            background: rgba(30, 30, 30, 0.8);
+            border: 2px solid var(--gold-dark);
+            color: var(--gold);
+            width: 58px;
+            height: 58px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 700;
+            border-radius: 14px;
+            user-select: none;
+            cursor: pointer;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.4);
+            transition: background 0.1s, color 0.1s, transform 0.1s;
+        }
+
+        .touch-btn:active {
+            background: var(--gold) !important;
+            color: #000 !important;
+            transform: scale(0.92);
+        }
+
+        .rotate-btn {
+            background: rgba(139, 101, 8, 0.2);
+            border: 2px solid var(--gold);
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            font-size: 26px;
+        }
+
+        @media (max-height: 680px) {
+            canvas {
+                height: 60vh !important;
+            }
+            .touch-btn {
+                width: 52px;
+                height: 52px;
+                font-size: 18px;
+            }
+            .rotate-btn {
+                width: 60px;
+                height: 60px;
+                font-size: 22px;
+            }
+            .game-logo img {
+                max-height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <div class="game-logo">
+            <img src="logo.png" alt="Brooklyn Build Logo">
+        </div>
+        
+        <a href="index.html" class="close-btn" aria-label="Закрити гру">
+            <svg viewBox="0 0 24 24">
+                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+            </svg>
+        </a>
+    </div>
+
+    <div class="score-container">
+        <div class="score-label">РАХУНОК</div>
+        <div id="score" class="score-value">0</div>
+    </div>
+
+    <div class="game-wrapper">
+        <canvas id="tetris" width="240" height="480"></canvas>
+    </div>
+
+    <div class="controls-layer">
+        <div class="arrows-group">
+            <div class="touch-btn" id="touch-left">←</div>
+            <div class="touch-btn" id="touch-down">↓</div>
+            <div class="touch-btn" id="touch-right">→</div>
+        </div>
+        
+        <div class="touch-btn rotate-btn" id="touch-rotate">↻</div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('tetris');
+        const context = canvas.getContext('2d');
+
+        context.scale(20, 20);
+
+        const colors = [
+            null,
+            '#D4AF37',
+            '#F3E5AB',
+            '#AA7C11',
+            '#B5A642',
+            '#E6CA65',
+            '#996515',
+            '#C5A059'
+        ];
+
+        function arenaSweep() {
+            let rowCount = 1;
+            outer: for (let y = arena.length - 1; y > 0; --y) {
+                for (let x = 0; x < arena[y].length; ++x) {
+                    if (arena[y][x] === 0) {
+                        continue outer;
+                    }
+                }
+                const row = arena.splice(y, 1)[0].fill(0);
+                arena.unshift(row);
+                ++y;
+
+                player.score += rowCount * 10;
+                rowCount *= 2;
+            }
+            updateScore();
+        }
+
+        function collide(arena, player) {
+            const [m, o] = [player.matrix, player.pos];
+            for (let y = 0; y < m.length; ++y) {
+                for (let x = 0; x < m[y].length; ++x) {
+                    if (m[y][x] !== 0 &&
+                       (arena[y + o.y] &&
+                        arena[y + o.y][x + o.x]) !== 0) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        function createMatrix(w, h) {
+            const matrix = [];
+            while (h--) {
+                matrix.push(new Array(w).fill(0));
+            }
+            return matrix;
+        }
+
+        function createPiece(type) {
+            if (type === 'T') {
+                return [
+                    [0, 0, 0],
+                    [1, 1, 1],
+                    [0, 1, 0],
+                ];
+            } else if (type === 'O') {
+                return [
+                    [2, 2],
+                    [2, 2],
+                ];
+            } else if (type === 'L') {
+                return [
+                    [0, 3, 0],
+                    [0, 3, 0],
+                    [0, 3, 3],
+                ];
+            } else if (type === 'J') {
+                return [
+                    [0, 4, 0],
+                    [0, 4, 0],
+                    [4, 4, 0],
+                ];
+            } else if (type === 'I') {
+                return [
+                    [0, 5, 0, 0],
+                    [0, 5, 0, 0],
+                    [0, 5, 0, 0],
+                    [0, 5, 0, 0],
+                ];
+            } else if (type === 'S') {
+                return [
+                    [0, 6, 6],
+                    [6, 6, 0],
+                    [0, 0, 0],
+                ];
+            } else if (type === 'Z') {
+                return [
+                    [7, 7, 0],
+                    [0, 7, 7],
+                    [0, 0, 0],
+                ];
+            }
+        }
+
+        function draw() {
+            context.fillStyle = '#111';
+            context.fillRect(0, 0, canvas.width, canvas.height);
+
+            context.strokeStyle = 'rgba(212, 175, 55, 0.03)';
+            context.lineWidth = 0.05;
+            for(let i=0; i<12; i++) {
+                context.beginPath(); context.moveTo(i, 0); context.lineTo(i, 24); context.stroke();
+            }
+            for(let i=0; i<24; i++) {
+                context.beginPath(); context.moveTo(0, i); context.lineTo(12, i); context.stroke();
+            }
+
+            drawMatrix(arena, {x: 0, y: 0});
+            drawMatrix(player.matrix, player.pos);
+        }
+
+        function drawMatrix(matrix, offset) {
+            matrix.forEach((row, y) => {
+                row.forEach((value, x) => {
+                    if (value !== 0) {
+                        context.fillStyle = colors[value];
+                        context.fillRect(x + offset.x, y + offset.y, 1, 1);
+                        
+                        context.strokeStyle = 'rgba(255,255,255,0.3)';
+                        context.lineWidth = 0.04;
+                        context.strokeRect(x + offset.x, y + offset.y, 1, 1);
+                    }
+                });
+            });
+        }
+
+        function merge(arena, player) {
+            player.matrix.forEach((row, y) => {
+                row.forEach((value, x) => {
+                    if (value !== 0) {
+                        arena[y + player.pos.y][x + player.pos.x] = value;
+                    }
+                });
+            });
+        }
+
+        function playerDrop() {
+            player.pos.y++;
+            if (collide(arena, player)) {
+                player.pos.y--;
+                merge(arena, player);
+                playerReset();
+                arenaSweep();
+            }
+            dropCounter = 0;
+        }
+
+        function playerMove(dir) {
+            player.pos.x += dir;
+            if (collide(arena, player)) {
+                player.pos.x -= dir;
+            }
+        }
+
+        function playerReset() {
+            const pieces = 'ILJOTSZ';
+            player.matrix = createPiece(pieces[pieces.length * Math.random() | 0]);
+            player.pos.y = 0;
+            player.pos.x = (arena[0].length / 2 | 0) - (player.matrix[0].length / 2 | 0);
+            
+            if (collide(arena, player)) {
+                arena.forEach(row => row.fill(0));
+                player.score = 0;
+                updateScore();
+            }
+        }
+
+        function playerRotate(dir) {
+            const pos = player.pos.x;
+            let offset = 1;
+            rotate(player.matrix, dir);
+            while (collide(arena, player)) {
+                player.pos.x += offset;
+                offset = -(offset + (offset > 0 ? 1 : -1));
+                if (offset > player.matrix[0].length) {
+                    rotate(player.matrix, -dir);
+                    player.pos.x = pos;
+                    return;
+                }
+            }
+        }
+
+        function rotate(matrix, dir) {
+            for (let y = 0; y < matrix.length; ++y) {
+                for (let x = 0; x < y; ++x) {
+                    [matrix[x][y], matrix[y][x]] = [matrix[y][x], matrix[x][y]];
+                }
+            }
+            if (dir > 0) {
+                matrix.forEach(row => row.reverse());
+            } else {
+                matrix.reverse();
+            }
+        }
+
+        let dropCounter = 0;
+        let dropInterval = 1000;
+        let lastTime = 0;
+
+        function update(time = 0) {
+            const deltaTime = time - lastTime;
+            lastTime = time;
+
+            dropCounter += deltaTime;
+            if (dropCounter > dropInterval) {
+                playerDrop();
+            }
+
+            draw();
+            requestAnimationFrame(update);
+        }
+
+        function updateScore() {
+            document.getElementById('score').innerText = player.score;
+        }
+
+        const arena = createMatrix(12, 24);
+
+        const player = {
+            pos: {x: 0, y: 0},
+            matrix: null,
+            score: 0
+        };
+
+        document.addEventListener('keydown', event => {
+            if (event.keyCode === 37) playerMove(-1);
+            else if (event.keyCode === 39) playerMove(1);
+            else if (event.keyCode === 40) playerDrop();
+            else if (event.keyCode === 38) playerRotate(1);
+        });
+
+        // Продвинутое мобильное управление (с автоповтором вниз)
+        let dropIntervalId = null;
+
+        document.getElementById('touch-left').addEventListener('click', (e) => {
+            e.preventDefault();
+            playerMove(-1);
+        });
+        
+        document.getElementById('touch-right').addEventListener('click', (e) => {
+            e.preventDefault();
+            playerMove(1);
+        });
+        
+        document.getElementById('touch-rotate').addEventListener('click', (e) => {
+            e.preventDefault();
+            playerRotate(1);
+        });
+
+        // Логика удержания кнопки "ВНИЗ"
+        const downBtn = document.getElementById('touch-down');
+
+        function startDropping(e) {
+            e.preventDefault();
+            playerDrop(); // Делаем один шаг сразу по нажатию
+            
+            // Запускаем цикл быстрого падения (каждые 70 миллисекунд)
+            if (!dropIntervalId) {
+                dropIntervalId = setInterval(() => {
+                    playerDrop();
+                }, 70);
+            }
+        }
+
+        function stopDropping(e) {
+            e.preventDefault();
+            if (dropIntervalId) {
+                clearInterval(dropIntervalId);
+                dropIntervalId = null;
+            }
+        }
+
+        // Привязываем события для мобилок (тач) и для тестов с компа (мышь)
+        downBtn.addEventListener('touchstart', startDropping);
+        downBtn.addEventListener('touchend', stopDropping);
+        downBtn.addEventListener('touchcancel', stopDropping);
+
+        downBtn.addEventListener('mousedown', startDropping);
+        downBtn.addEventListener('mouseup', stopDropping);
+        downBtn.addEventListener('mouseleave', stopDropping);
+
+        playerReset();
+        updateScore();
+        update();
+    </script>
+</body>
+</html>

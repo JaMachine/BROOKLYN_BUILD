@@ -9,9 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const servicesBtn = document.getElementById("services-btn");
     const servicesDropdown = document.getElementById("services-dropdown");
     const galleryBtn = document.getElementById('to-gallery-btn');
-
-    const galleryPage = document.getElementById('gallery-page');
-    const closeGalleryBtn = document.getElementById('close-gallery-btn');
     
     // Мобильный логотип
     const mobileLogo = document.querySelector('.menu-mobile-logo');
@@ -98,25 +95,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Открытие галереи поверх страницы
-    if (galleryBtn && galleryPage) {
+    // КЛИК НА ГАЛЕРЕЮ -> ЗАПУСК ТЕТРИСА
+    if (galleryBtn) {
         galleryBtn.addEventListener('click', (e) => {
             e.preventDefault();
             closeMobileMenuWithReset();
-            galleryPage.classList.remove('hidden');
-            requestAnimationFrame(() => {
-                galleryPage.classList.add('slide-up');
-            });
-        });
-    }
-
-    // Закрытие галереи
-    if (closeGalleryBtn && galleryPage) {
-        closeGalleryBtn.addEventListener('click', () => {
-            galleryPage.classList.remove('slide-up');
-            setTimeout(() => {
-                galleryPage.classList.add('hidden');
-            }, 500);
+            window.location.href = 'tetris.html'; 
         });
     }
 });
