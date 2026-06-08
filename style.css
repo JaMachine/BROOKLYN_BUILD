@@ -1,6 +1,6 @@
 /* ==========================================================================
    1. БАЗОВЫЕ И ГЛОБАЛЬНЫЕ СТИЛИ (ДЛЯ ВСЕХ УСТРОЙСТВ)
-   ========================================================================== */
+   ========================================================================= */
 * {
     margin: 0;
     padding: 0;
@@ -20,7 +20,7 @@ body {
     font-family: 'Montserrat', sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
-    overflow-y: auto; /* Разрешаем нормальный скролл страницы */
+    overflow-y: auto;
 }
 
 .hidden {
@@ -29,7 +29,7 @@ body {
 
 /* ==========================================================================
    2. ГЛАВНЫЙ ЭКРАН (HERO SECTION)
-   ========================================================================== */
+   ========================================================================= */
 .main-hero-section {
     width: 100%;
     height: 100vh;
@@ -79,7 +79,7 @@ body {
 
 /* ==========================================================================
    3. НАВИГАЦИЯ И КНОПКИ (ДЕСКТОПНЫЙ ВАРИАНТ)
-   ========================================================================== */
+   ========================================================================= */
 .nav-menu {
     display: flex;
     flex-direction: column; 
@@ -122,7 +122,6 @@ body {
     border-color: var(--gold);
 }
 
-/* Выпадающее подменю услуг */
 .dropdown-wrapper { 
     position: relative; 
     width: 100%; 
@@ -156,13 +155,13 @@ body {
 }
 
 /* ==========================================================================
-   4. БЛОК УСЛУГ И КОНТАКТОВ (ОСНОВНОЙ СКРОЛЛ-КОНТЕНТ)
-   ========================================================================== */
+   4. БЛОК УСЛУГ И КОНТАКТОВ
+   ========================================================================= */
 .services-scroll-container {
     width: 100%;
     background: linear-gradient(to bottom, #111111 0%, #070707 100%);
     position: relative;
-    z-index: 1; /* Контент лежит в самом низу по слоям, чтобы не перекрывать меню */
+    z-index: 1; 
     padding: 80px 24px;
     display: flex;
     flex-direction: column;
@@ -211,7 +210,6 @@ body {
     margin-top: 40px; 
 }
 
-/* Стили блока контактов */
 .footer-contacts-block {
     width: 100%;
     max-width: 520px;
@@ -321,8 +319,8 @@ body {
 }
 
 /* ==========================================================================
-   5. СТРАНИЦА ГАЛЕРЕИ (ПОЛНОЭКРАННЫЙ СЛАЙДЕР)
-   ========================================================================== */
+   5. СТРАНИЦА ГАЛЕРЕИ
+   ========================================================================= */
 .gallery-container {
     position: fixed;
     top: 0; 
@@ -332,7 +330,7 @@ body {
     transform: translateY(100%);
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     background: #0a0a0a;
-    z-index: 200000; /* Выше абсолютно всего на сайте */
+    z-index: 200000; 
 }
 
 .gallery-container.slide-up { 
@@ -364,21 +362,15 @@ body {
     background: #111;
 }
 
-/* Стили по умолчанию для скрытых кнопок на десктопе */
-.menu-toggle { 
+.menu-toggle, .phone-widget { 
     display: none; 
 }
-.phone-widget { 
-    display: none; 
-}
-
 
 /* ==========================================================================
    6. АДАПТИВНАЯ МОБИЛЬНАЯ ВЕРСИЯ (ЭКРАНЫ ДО 768px)
-   ========================================================================== */
+   ========================================================================= */
 @media (max-width: 768px) {
     
-    /* Сбрасываем десктопное позиционирование логотипа */
     .header { 
         position: static; 
         padding: 40px 20px; 
@@ -389,7 +381,7 @@ body {
         max-width: 200px; 
     }
 
-    /* ФИКСИРУЕМ КНОПКУ ГАМБУРГЕРА ПОВЕРХ ВСЕЙ СТРАНИЦЫ */
+    /* КНОПКА ГАМБУРГЕРА */
     .menu-toggle {
         display: flex !important;
         justify-content: center;
@@ -404,7 +396,7 @@ body {
         border-radius: 50% !important;
         cursor: pointer !important; 
         box-shadow: 0 5px 15px rgba(0,0,0,0.7) !important;
-        z-index: 99999 !important; /* Самый высокий приоритет слоя */
+        z-index: 99999 !important; 
         transition: transform 0.3s ease !important;
     }
 
@@ -424,7 +416,6 @@ body {
         transition: all 0.3s ease; 
     }
 
-    /* Анимация превращения гамбургера в крестик 'X' */
     .menu-toggle.active { 
         transform: rotate(90deg) !important; 
     }
@@ -432,83 +423,106 @@ body {
     .menu-toggle.active .burger-icon span:nth-child(2) { opacity: 0; }
     .menu-toggle.active .burger-icon span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
-    /* МОБИЛЬНОЕ МЕНЮ: ЖЕЛЕЗОБЕТОННЫЙ ЧЕРНЫЙ МАТОВЫЙ СЛОЙ */
+    /* МОБИЛЬНАЯ ШТОРКА МЕНЮ */
     .nav-menu {
         position: fixed !important; 
         bottom: 0 !important; 
         left: -100% !important; 
-        width: 80% !important; 
-        max-width: 320px !important; 
+        width: 85% !important; 
+        max-width: 340px !important; 
         height: 100vh !important;
-        background: #0a0a0a !important; /* Плотный черный фон */
+        background: #0a0a0a !important; 
         border-right: 2px solid #8B6508 !important; 
-        padding: 0 20px !important; 
+        padding: 30px 24px 100px 24px !important; /* Уменьшили верхний паддинг */
         display: flex !important; 
         flex-direction: column !important; 
-        justify-content: center !important; 
+        justify-content: flex-start !important; /* Четкий поток сверху вниз */
         align-items: center !important;
+        overflow-y: auto !important; 
         transition: left 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
-        z-index: 99990 !important; /* Выше контента, но чуть ниже кнопки гамбургера */
+        z-index: 99990 !important; 
     }
 
-    /* Когда меню открыто, оно выезжает на экран */
     .nav-menu.open { 
         left: 0 !important; 
     }
 
+    /* МОБИЛЬНЫЙ ЛОГОТИП (ЗАКРЕПЛЕН НАВЕРХУ) */
     .menu-mobile-logo { 
         display: flex !important; 
-        justify-content: center; 
-        position: absolute; 
-        top: 40px; 
-        left: 0; 
-        width: 100%; 
+        justify-content: center !important; 
+        align-items: center !important;
+        width: 100% !important; 
+        max-height: 200px; 
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 0.3s ease, max-height 0.3s ease, visibility 0.3s ease, margin-bottom 0.3s ease !important;
+        flex-shrink: 0 !important; 
+        margin-bottom: 0 !important; 
+        margin-top: 10px !important; 
     }
     
     .menu-mobile-logo img { 
-        max-width: 150px; 
+        width: 100% !important;
+        max-width: 220px !important; /* Оставляем сочный крупный размер */
+        height: auto !important;
+    }
+    
+    .menu-mobile-logo.fade-out {
+        opacity: 0;
+        visibility: hidden;
+        max-height: 0 !important;
+        margin-bottom: 0 !important;
+        margin-top: 0 !important;
     }
 
+    /* КОНТЕЙНЕР КНОПОК: ПРИНУДИТЕЛЬНО ПОДНЯТ К ЗЕЛЕНОЙ ЛИНИИ */
     .nav-buttons-wrapper { 
         display: flex !important; 
         flex-direction: column !important; 
-        gap: 20px !important; 
+        gap: 15px !important; 
         width: 100% !important; 
-        margin-top: 60px !important; 
+        margin-top: 40px !important; /* Жесткий контролируемый отступ прямо под логотипом */
+        margin-bottom: 0 !important;
     }
 
     .nav-btn { 
-        padding: 12px 20px !important; 
+        padding: 14px 20px !important; 
         font-size: 13px !important; 
         background: #111111 !important; 
     }
 
-    /* Мобильное выпадающее подменю */
+    /* МОБИЛЬНОЕ ПОДМЕНЮ */
     .dropdown-menu {
         position: relative !important; 
         left: 0 !important; 
+        top: 0 !important;
         bottom: auto !important; 
-        margin: 10px 0 0 10px !important; 
+        margin: 10px 0 0 0 !important; 
         width: 100% !important;
         background: #000000 !important;
         display: flex !important;
         flex-direction: column !important;
-        gap: 5px !important;
+        gap: 6px !important;
     }
 
-    /* Жесткое скрытие подменю, когда у него есть класс .hidden */
     .dropdown-menu.hidden {
         display: none !important;
     }
+    
+    .sub-nav-btn {
+        font-size: 12px !important;
+        padding: 12px 15px !important;
+    }
 
-    /* ФИКСИРОВАННЫЙ ВИДЖЕТ ТЕЛЕФОНА (ТРУБКА) */
+    /* ВИДЖЕТ ТЕЛЕФОНА */
     .phone-widget { 
         display: flex !important; 
         align-items: center !important; 
         position: fixed !important; 
         bottom: 30px !important; 
         right: 25px !important; 
-        z-index: 99999 !important; /* На одном уровне с гамбургером */
+        z-index: 99999 !important; 
     }
     
     .phone-number {

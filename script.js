@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     
+    // Элементы управления
     const menuToggleBtn = document.getElementById('menu-toggle-btn');
     const mobileNavMenu = document.getElementById('mobile-nav-menu');
     const phoneWidget = document.getElementById('phone-widget');
@@ -7,12 +8,15 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const servicesBtn = document.getElementById("services-btn");
     const servicesDropdown = document.getElementById("services-dropdown");
-    const toContactsBtn = document.getElementById("to-contacts-btn");
     const galleryBtn = document.getElementById('to-gallery-btn');
 
     const galleryPage = document.getElementById('gallery-page');
     const closeGalleryBtn = document.getElementById('close-gallery-btn');
+    
+    // Мобильный логотип
+    const mobileLogo = document.querySelector('.menu-mobile-logo');
 
+    // Функция полного закрытия меню и сброса всех состояний
     function closeMobileMenuWithReset() {
         if (mobileNavMenu && menuToggleBtn) {
             mobileNavMenu.classList.remove('open');
@@ -21,8 +25,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (servicesDropdown) {
             servicesDropdown.classList.add('hidden'); 
         }
+        if (mobileLogo) {
+            mobileLogo.classList.remove('fade-out'); 
+        }
     }
 
+    // Открытие/закрытие главного мобильного меню
     if (menuToggleBtn && mobileNavMenu) {
         menuToggleBtn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -35,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Кнопка телефона
     if (phoneBtn && phoneWidget) {
         phoneBtn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -42,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Клик мимо элементов закрывает шторки
     document.addEventListener('click', (e) => {
         if (mobileNavMenu && !mobileNavMenu.contains(e.target) && !menuToggleBtn.contains(e.target)) {
             closeMobileMenuWithReset();
@@ -51,14 +61,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Показ подменю услуг + скрытие/показ логотипа
     if (servicesBtn && servicesDropdown) {
         servicesBtn.addEventListener("click", (e) => {
             e.preventDefault();
             e.stopPropagation();
+            
             servicesDropdown.classList.toggle("hidden");
+            
+            if (mobileLogo) {
+                if (!servicesDropdown.classList.contains("hidden")) {
+                    mobileLogo.classList.add('fade-out');
+                } else {
+                    mobileLogo.classList.remove('fade-out');
+                }
+            }
         });
     }
 
+    // Скролл к выбранной карточке услуги
     const subNavButtons = document.querySelectorAll('.sub-nav-btn');
     subNavButtons.forEach(button => {
         button.addEventListener('click', (e) => {
@@ -67,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetElement = document.getElementById(targetSectionId);
 
             if (targetElement) {
-                closeMobileMenuWithReset();
+                closeMobileMenuWithReset(); 
                 
                 targetElement.scrollIntoView({
                     behavior: 'smooth',
@@ -77,6 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Открытие галереи поверх страницы
     if (galleryBtn && galleryPage) {
         galleryBtn.addEventListener('click', (e) => {
             e.preventDefault();
@@ -88,6 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Закрытие галереи
     if (closeGalleryBtn && galleryPage) {
         closeGalleryBtn.addEventListener('click', () => {
             galleryPage.classList.remove('slide-up');
