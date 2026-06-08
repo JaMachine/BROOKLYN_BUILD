@@ -1,94 +1,67 @@
-/* Повний сброс отступів */
+/* ==========================================================================
+   1. БАЗОВЫЕ И ГЛОБАЛЬНЫЕ СТИЛИ (ДЛЯ ВСЕХ УСТРОЙСТВ)
+   ========================================================================== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+:root {
+    --gold: #D4AF37;
+    --gold-dark: #8B6508;
+    --text-light: #e0e0e0;
+    --text-dim: #888;
+}
+
 body {
-    background: linear-gradient(135deg, #0a0a0a 0%, #2c2c2c 100%);
+    background: #0a0a0a;
     color: #ffffff;
     font-family: 'Montserrat', sans-serif;
     min-height: 100vh;
-    position: relative;
     overflow-x: hidden;
+    overflow-y: auto; /* Разрешаем нормальный скролл страницы */
 }
 
-/* --- ЛОГИКА ПЕРЕХОДОВ --- */
 .hidden {
     display: none !important;
 }
 
-.page-container {
+/* ==========================================================================
+   2. ГЛАВНЫЙ ЭКРАН (HERO SECTION)
+   ========================================================================== */
+.main-hero-section {
     width: 100%;
     height: 100vh;
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    opacity: 1;
-    transform: scale(1);
-    position: absolute; 
-    top: 0;
-    left: 0;
+    position: relative;
+    z-index: 10;
 }
 
-.fade-out {
-    opacity: 0;
-    transform: scale(0.95);
-    pointer-events: none;
-}
-
-/* Анимация для Галереи */
-.gallery-container {
-    transform: translateY(100%);
-    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease;
-    background: #0a0a0a;
-    overflow: hidden;
-    z-index: 30;
-}
-
-.gallery-container.slide-up {
-    transform: translateY(0);
-}
-
-/* --- ФОНОВЫЙ СЛОЙ --- */
 .main-content {
     position: absolute;
-    top: 0;
+    top: 0; 
     left: 0;
-    width: 100%;
+    width: 100%; 
     height: 100%;
     z-index: -1;
-    display: flex;
-    justify-content: center; 
-    align-items: center;
-    padding: 0;
-    pointer-events: none;
-    overflow: hidden;
 }
 
-.estate-image, .estate-image picture {
+.estate-image, .estate-image picture, .estate-image img {
     display: block;
     width: 100%;
     height: 100%;
-}
-
-.estate-image img {
-    height: 100vh; 
-    width: 100vw;
-    object-fit: cover; 
+    object-fit: cover;
     object-position: center;
 }
 
-/* --- ВЕРХНИЙ СЛОЙ И ЦЕНТРИРОВАНИЕ --- */
 .content-wrapper {
     position: relative;
     width: 100%;
-    max-width: 1400px; 
-    margin: 0 auto;
     height: 100vh;
     z-index: 10;
-    pointer-events: none; 
 }
 
+/* Шапка и логотип для десктопа */
 .header {
     position: absolute;
     top: 6vh; 
@@ -96,8 +69,6 @@ body {
     display: flex;
     flex-direction: column; 
     gap: 30px; 
-    pointer-events: auto; 
-    padding: 0;
 }
 
 .logo img {
@@ -106,17 +77,18 @@ body {
     filter: drop-shadow(0px 15px 20px rgba(0, 0, 0, 0.8)); 
 }
 
-/* --- НАВИГАЦИЯ (Десктоп) --- */
+/* ==========================================================================
+   3. НАВИГАЦИЯ И КНОПКИ (ДЕСКТОПНЫЙ ВАРИАНТ)
+   ========================================================================== */
 .nav-menu {
     display: flex;
     flex-direction: column; 
     gap: 15px; 
-    margin: 0;
     width: 250px; 
 }
 
-.menu-mobile-logo {
-    display: none;
+.menu-mobile-logo { 
+    display: none; 
 }
 
 .nav-buttons-wrapper {
@@ -131,7 +103,7 @@ body {
     text-align: left; 
     background: rgba(30, 30, 30, 0.6); 
     color: #e0e0e0;
-    border: 2px solid #8B6508; 
+    border: 2px solid var(--gold-dark); 
     padding: 14px 22px; 
     cursor: pointer;
     font-family: 'Montserrat', sans-serif;
@@ -141,343 +113,440 @@ body {
     letter-spacing: 1.5px; 
     backdrop-filter: blur(8px);
     transition: all 0.3s ease;
-    outline: none;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6); 
 }
 
 .nav-btn:hover {
     background: rgba(212, 175, 55, 0.2);
-    color: #D4AF37;
-    border-color: #D4AF37;
-    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(212, 175, 55, 0.2);
+    color: var(--gold);
+    border-color: var(--gold);
 }
 
-.nav-btn:active {
-    transform: scale(0.98);
-}
-
-/* --- ВЫПАДАЮЩЕЕ МЕНЮ --- */
-.dropdown-wrapper {
-    position: relative;
-    width: 100%;
+/* Выпадающее подменю услуг */
+.dropdown-wrapper { 
+    position: relative; 
+    width: 100%; 
 }
 
 .dropdown-menu {
     position: absolute; 
-    bottom: -15px;      
+    bottom: -15px; 
     left: 100%;         
-    margin-left: 15px;  
+    margin-left: 15px; 
     width: max-content; 
-    display: flex;
-    flex-direction: column;
+    display: flex; 
+    flex-direction: column; 
     gap: 8px;
-    animation: slideUpRight 0.3s ease forwards; 
     z-index: 50;        
 }
 
 .sub-nav-btn {
-    background: rgba(15, 15, 15, 0.933);
+    background: rgba(15, 15, 15, 0.95);
     color: #cccccc;
-    border: 1px solid #8B6508;
-    border-left: 4px solid #8B6508; 
+    border: 1px solid var(--gold-dark);
+    border-left: 4px solid var(--gold-dark); 
     padding: 12px 20px;
     cursor: pointer;
     font-family: 'Montserrat', sans-serif;
     font-size: 12px;
-    font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 1px;
     text-align: left;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
     width: 100%;
 }
 
-.sub-nav-btn:hover {
-    background: #4b3900c8; 
-    color: #ffffff;      
-    border-left-color: #ffffff; 
-    transform: translateX(8px); 
-}
-
-/* Анимации */
-@keyframes slideUpRight {
-    from { opacity: 0; transform: translate(-15px, 15px); }
-    to { opacity: 1; transform: translate(0, 0); }
-}
-
-@keyframes slideDown {
-    from { opacity: 0; transform: translateY(-15px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* --- ЭКРАНЫ: ЗАГЛУШКА И ГАЛЕРЕЯ --- */
-#stub-page {
-    z-index: 20;
+/* ==========================================================================
+   4. БЛОК УСЛУГ И КОНТАКТОВ (ОСНОВНОЙ СКРОЛЛ-КОНТЕНТ)
+   ========================================================================== */
+.services-scroll-container {
+    width: 100%;
+    background: linear-gradient(to bottom, #111111 0%, #070707 100%);
+    position: relative;
+    z-index: 1; /* Контент лежит в самом низу по слоям, чтобы не перекрывать меню */
+    padding: 80px 24px;
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
-#stub-page:not(.hidden) { display: flex !important; }
+
+.service-card {
+    width: 100%;
+    max-width: 520px;
+    margin-bottom: 60px;
+    scroll-margin-top: 40px; 
+}
+
+.service-header { 
+    display: flex; 
+    align-items: baseline; 
+    gap: 15px; 
+    margin-bottom: 15px; 
+}
+
+.service-num { 
+    font-size: 18px; 
+    font-weight: 700; 
+    color: var(--gold); 
+}
+
+.service-header h2 { 
+    font-size: 20px; 
+    font-weight: 700; 
+    text-transform: uppercase; 
+    letter-spacing: 1px; 
+    color: #ffffff; 
+}
+
+.service-desc { 
+    font-size: 14px; 
+    line-height: 1.6; 
+    color: var(--text-light); 
+    text-align: justify; 
+}
+
+.service-divider { 
+    width: 100%; 
+    height: 1px; 
+    background: linear-gradient(to right, var(--gold-dark), transparent); 
+    margin-top: 40px; 
+}
+
+/* Стили блока контактов */
+.footer-contacts-block {
+    width: 100%;
+    max-width: 520px;
+    margin-top: 20px;
+    padding-top: 60px;
+    border-top: 2px solid var(--gold-dark);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    scroll-margin-top: 40px;
+}
+
+.info-block { 
+    width: 100%; 
+    text-align: center; 
+}
+
+.contacts-title { 
+    font-size: 28px; 
+    font-weight: 900; 
+    text-transform: uppercase; 
+    margin-bottom: 30px; 
+    letter-spacing: 1px;
+}
+
+.contacts-title span { 
+    color: var(--gold); 
+}
+
+.contact-block { 
+    margin-bottom: 24px; 
+}
+
+.contact-label { 
+    font-size: 10px; 
+    font-weight: 600; 
+    letter-spacing: 2px; 
+    text-transform: uppercase; 
+    color: var(--text-dim); 
+    margin-bottom: 6px; 
+}
+
+.phone-link { 
+    display: inline-flex; 
+    align-items: center; 
+    gap: 10px; 
+    text-decoration: none; 
+    color: #ffffff; 
+    font-size: 22px; 
+    font-weight: 700; 
+}
+
+.phone-icon { 
+    width: 34px; 
+    height: 34px; 
+    border: 1px solid var(--gold-dark); 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    background: rgba(212,175,55,0.05); 
+}
+
+.phone-icon svg { 
+    width: 14px; 
+    height: 14px; 
+    fill: var(--gold); 
+}
+
+.address-text { 
+    font-size: 15px; 
+    color: var(--text-light); 
+    line-height: 1.6; 
+}
+
+.gold-divider { 
+    width: 60px; 
+    height: 2px; 
+    background: linear-gradient(to right, transparent, var(--gold), transparent); 
+    margin: 20px auto; 
+}
+
+.map-wrapper { 
+    width: 100%; 
+    margin-top: 30px; 
+}
+
+.map-frame { 
+    position: relative; 
+    border: 2px solid var(--gold-dark); 
+    overflow: hidden; 
+}
+
+.map-frame iframe { 
+    width: 100%; 
+    height: 240px; 
+    border: none; 
+    display: block; 
+    filter: grayscale(20%); 
+}
+
+.map-caption { 
+    margin-top: 8px; 
+    text-align: center; 
+    font-size: 10px; 
+    color: var(--gold-dark); 
+    text-transform: uppercase; 
+}
+
+/* ==========================================================================
+   5. СТРАНИЦА ГАЛЕРЕИ (ПОЛНОЭКРАННЫЙ СЛАЙДЕР)
+   ========================================================================== */
+.gallery-container {
+    position: fixed;
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100vh;
+    transform: translateY(100%);
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    background: #0a0a0a;
+    z-index: 200000; /* Выше абсолютно всего на сайте */
+}
+
+.gallery-container.slide-up { 
+    transform: translateY(0); 
+}
+
+.gallery-scroll-view { 
+    width: 100%; 
+    height: calc(100vh - 120px); 
+    overflow-y: auto; 
+    padding: 20px; 
+}
+
+.gallery-feed { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    gap: 40px; 
+}
+
+.gallery-feed img { 
+    max-width: calc(100% - 40px); 
+    height: auto; 
+    border: 1px solid rgba(212, 175, 55, 0.2); 
+}
 
 .header-stub {
-    padding: 20px 40px;
-    position: relative;
-    z-index: 10;
-}
-.stub-logo img { max-width: 80px; }
-
-.stub-content {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.back-btn {
-    font-size: 24px;          
-    padding: 20px 80px;       
-    border: 3px solid #D4AF37; 
-    text-align: center;
-    width: auto;
-}
-
-/* --- ЛЕНТА ГАЛЕРЕИ --- */
-.gallery-scroll-view {
-    width: 100%;
-    height: calc(100vh - 120px); 
-    overflow-y: auto;
     padding: 20px;
+    background: #111;
 }
 
-.gallery-feed {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 40px; 
-    padding-bottom: 60px;
+/* Стили по умолчанию для скрытых кнопок на десктопе */
+.menu-toggle { 
+    display: none; 
+}
+.phone-widget { 
+    display: none; 
 }
 
-.gallery-feed img {
-    max-width: calc(100% - 40px); 
-    height: auto;
-    object-fit: contain;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-    border: 1px solid rgba(212, 175, 55, 0.2);
-}
 
-/* --- СКРЫТИЕ МОБИЛЬНЫХ ЭЛЕМЕНТОВ НА ДЕСТКОПЕ --- */
-.menu-toggle, .phone-widget {
-    display: none;
-}
-
-/* --- МОБИЛЬНАЯ ВЕРСИЯ (ДО 768px) --- */
+/* ==========================================================================
+   6. АДАПТИВНАЯ МОБИЛЬНАЯ ВЕРСИЯ (ЭКРАНЫ ДО 768px)
+   ========================================================================== */
 @media (max-width: 768px) {
     
-    /* КРУГЛАЯ КНОПКА МЕНЮ ВНИЗУ СЛЕВА */
-    .menu-toggle {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: fixed;
-        bottom: 30px; 
-        left: 25px;
-        width: 50px;
-        height: 50px;
-        background: #8B6508;
-        border: 2px solid #D4AF37;
-        border-radius: 50%;
-        cursor: pointer;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-        z-index: 100;
-        transition: transform 0.3s ease, background 0.3s ease;
-    }
-
-    .burger-icon {
-        width: 22px;
-        height: 16px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-
-    .burger-icon span {
-        display: block;
-        width: 100%;
-        height: 2.5px;
-        background-color: #ffffff;
-        border-radius: 2px;
-        transition: all 0.3s ease-in-out;
-    }
-
-    .menu-toggle.active {
-        background: #D4AF37;
-        transform: rotate(90deg);
-    }
-
-    .menu-toggle.active .burger-icon span:nth-child(1) {
-        transform: translateY(7px) rotate(45deg);
-    }
-    .menu-toggle.active .burger-icon span:nth-child(2) {
-        opacity: 0;
-    }
-    .menu-toggle.active .burger-icon span:nth-child(3) {
-        transform: translateY(-6.5px) rotate(-45deg);
-    }
-
-    .header {
+    /* Сбрасываем десктопное позиционирование логотипа */
+    .header { 
         position: static; 
-        padding: 40px 20px;
-        gap: 30px;
+        padding: 40px 20px; 
         align-items: center; 
     }
-
-    .logo img {
-        max-width: 200px;
+    
+    .logo img { 
+        max-width: 200px; 
     }
 
-    /* ШТОРКА МЕНЮ НА МОБИЛЬНОМ */
+    /* ФИКСИРУЕМ КНОПКУ ГАМБУРГЕРА ПОВЕРХ ВСЕЙ СТРАНИЦЫ */
+    .menu-toggle {
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        position: fixed !important; 
+        bottom: 30px !important; 
+        left: 25px !important;
+        width: 50px !important; 
+        height: 50px !important;
+        background: #8B6508 !important; 
+        border: 2px solid #D4AF37 !important; 
+        border-radius: 50% !important;
+        cursor: pointer !important; 
+        box-shadow: 0 5px 15px rgba(0,0,0,0.7) !important;
+        z-index: 99999 !important; /* Самый высокий приоритет слоя */
+        transition: transform 0.3s ease !important;
+    }
+
+    .burger-icon { 
+        width: 22px; 
+        height: 16px; 
+        display: flex; 
+        flex-direction: column; 
+        justify-content: space-between; 
+    }
+    
+    .burger-icon span { 
+        display: block; 
+        width: 100%; 
+        height: 2.5px; 
+        background-color: #ffffff; 
+        transition: all 0.3s ease; 
+    }
+
+    /* Анимация превращения гамбургера в крестик 'X' */
+    .menu-toggle.active { 
+        transform: rotate(90deg) !important; 
+    }
+    .menu-toggle.active .burger-icon span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .menu-toggle.active .burger-icon span:nth-child(2) { opacity: 0; }
+    .menu-toggle.active .burger-icon span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* МОБИЛЬНОЕ МЕНЮ: ЖЕЛЕЗОБЕТОННЫЙ ЧЕРНЫЙ МАТОВЫЙ СЛОЙ */
     .nav-menu {
-        position: fixed;
-        bottom: 0; 
-        left: -100%; 
-        width: 80%;
-        max-width: 320px;
-        height: 100vh;
-        background: rgba(10, 10, 10, 0.96);
-        backdrop-filter: blur(15px);
-        border-right: 2px solid #8B6508;
-        padding: 0 20px; /* Убираем лишние паддинги, распределяем внутренними блоками */
-        display: flex;
-        flex-direction: column;
-        justify-content: center; /* Центрирует всё содержимое шторки */
-        align-items: center;
-        transition: left 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-        z-index: 90;
-        pointer-events: auto;
+        position: fixed !important; 
+        bottom: 0 !important; 
+        left: -100% !important; 
+        width: 80% !important; 
+        max-width: 320px !important; 
+        height: 100vh !important;
+        background: #0a0a0a !important; /* Плотный черный фон */
+        border-right: 2px solid #8B6508 !important; 
+        padding: 0 20px !important; 
+        display: flex !important; 
+        flex-direction: column !important; 
+        justify-content: center !important; 
+        align-items: center !important;
+        transition: left 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
+        z-index: 99990 !important; /* Выше контента, но чуть ниже кнопки гамбургера */
     }
 
-    .nav-menu.open {
-        left: 0;
+    /* Когда меню открыто, оно выезжает на экран */
+    .nav-menu.open { 
+        left: 0 !important; 
     }
 
-    /* МОБИЛЬНЫЙ ЛОГОТИП СВЕРХУ ШТОРКИ */
-    .menu-mobile-logo {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        position: absolute;
-        top: 40px; /* Фиксированный отступ от верхнего края */
-        left: 0;
+    .menu-mobile-logo { 
+        display: flex !important; 
+        justify-content: center; 
+        position: absolute; 
+        top: 40px; 
+        left: 0; 
+        width: 100%; 
+    }
+    
+    .menu-mobile-logo img { 
+        max-width: 150px; 
     }
 
-    .menu-mobile-logo img {
-        max-width: 150px; /* Оптимальный аккуратный размер */
-        height: auto;
-        filter: drop-shadow(0px 10px 15px rgba(0, 0, 0, 0.6));
+    .nav-buttons-wrapper { 
+        display: flex !important; 
+        flex-direction: column !important; 
+        gap: 20px !important; 
+        width: 100% !important; 
+        margin-top: 60px !important; 
     }
 
-    /* ОБЕРТКА КНОПОК: ЖЕСТКАЯ ВЕРТИКАЛЬНАЯ ЦЕНТРОВКА */
-    .nav-buttons-wrapper {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        width: 100%;
-        height: auto;
-        justify-content: center; /* Строго вертикально по центру */
-        margin-top: 60px; /* Балансирует визуальный вес из-за логотипа сверху */
+    .nav-btn { 
+        padding: 12px 20px !important; 
+        font-size: 13px !important; 
+        background: #111111 !important; 
     }
 
-    .nav-btn {
-        padding: 12px 20px; 
-        font-size: 13px;
-    }
-
+    /* Мобильное выпадающее подменю */
     .dropdown-menu {
-        position: relative;
-        left: 0;
-        bottom: auto; 
-        margin-left: 10px;
-        margin-top: 10px;
-        width: 100%;
-        animation: slideDown 0.3s ease forwards;
+        position: relative !important; 
+        left: 0 !important; 
+        bottom: auto !important; 
+        margin: 10px 0 0 10px !important; 
+        width: 100% !important;
+        background: #000000 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 5px !important;
     }
 
-    /* --- КНОПКА СВЯЗИ ВНИЗУ СПРАВА --- */
-    .phone-widget {
-        display: flex;
-        align-items: center;
-        position: fixed;
-        bottom: 30px;
-        right: 25px;
-        z-index: 100;
+    /* Жесткое скрытие подменю, когда у него есть класс .hidden */
+    .dropdown-menu.hidden {
+        display: none !important;
     }
 
+    /* ФИКСИРОВАННЫЙ ВИДЖЕТ ТЕЛЕФОНА (ТРУБКА) */
+    .phone-widget { 
+        display: flex !important; 
+        align-items: center !important; 
+        position: fixed !important; 
+        bottom: 30px !important; 
+        right: 25px !important; 
+        z-index: 99999 !important; /* На одном уровне с гамбургером */
+    }
+    
     .phone-number {
-        background: rgba(30, 30, 30, 0.9);
-        border: 2px solid #8B6508;
-        border-right: none;
-        color: #ffffff;
-        text-decoration: none;
-        font-family: 'Montserrat', sans-serif;
-        font-size: 14px;
-        font-weight: 600;
-        padding: 12px 20px;
-        border-radius: 25px 0 0 25px;
-        backdrop-filter: blur(8px);
-        box-shadow: -5px 5px 15px rgba(0,0,0,0.4);
-        max-width: 0;
-        opacity: 0;
-        padding-left: 0;
-        padding-right: 0;
-        overflow: hidden;
-        white-space: nowrap;
-        transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        background: #1e1e1e !important; 
+        border: 2px solid #8B6508 !important; 
+        border-right: none !important;
+        color: #ffffff !important; 
+        text-decoration: none !important; 
+        font-size: 14px !important; 
+        font-weight: 600 !important;
+        padding: 12px 0 !important; 
+        border-radius: 25px 0 0 25px !important; 
+        max-width: 0; 
+        opacity: 0; 
+        overflow: hidden; 
+        white-space: nowrap; 
+        transition: all 0.4s ease !important;
     }
 
-    .phone-widget.active .phone-number {
-        max-width: 220px;
-        opacity: 1;
-        padding-left: 20px;
-        padding-right: 15px;
+    .phone-widget.active .phone-number { 
+        max-width: 220px !important; 
+        opacity: 1 !important; 
+        padding: 12px 15px 12px 20px !important; 
     }
-
-    .phone-btn {
-        width: 50px;
-        height: 50px;
-        background: #8B6508;
-        border: 2px solid #D4AF37;
-        border-radius: 50%;
-        color: #ffffff;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-        transition: transform 0.3s ease, background 0.3s ease;
+    
+    .phone-btn { 
+        width: 50px !important; 
+        height: 50px !important; 
+        background: #8B6508 !important; 
+        border: 2px solid #D4AF37 !important; 
+        border-radius: 50% !important; 
+        color: #ffffff !important; 
+        display: flex !important; 
+        justify-content: center !important; 
+        align-items: center !important; 
     }
-
-    .phone-widget.active .phone-btn {
-        background: #D4AF37;
-        transform: rotate(135deg);
-    }
-
-    /* Стили заглушек */
-    .header-stub {
-        padding: 20px;
-    }
-
-    .stub-logo img {
-        max-width: 60px;
-    }
-
-    #gallery-page .back-btn, #stub-page .back-btn {
-        margin: 0 !important;
-        font-size: 14px;
-        padding: 10px 20px;
-    }
-
-    .gallery-scroll-view {
-        height: calc(100vh - 80px);
+    
+    .phone-widget.active .phone-btn { 
+        transform: rotate(135deg) !important; 
     }
 }
